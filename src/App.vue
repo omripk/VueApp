@@ -1,7 +1,7 @@
 <template>
   <div id="app">
+    <BlockUI v-if="isLoading" message="Lütfen Bekle" url="https://media.giphy.com/media/xTk9ZvMnbIiIew7IpW/giphy.gif"></BlockUI>    
     <search v-on:SearchRequested="handleSearch"></search>
-    <p v-if="isLoading">Loading</p>
     <preview :gifs="gifs"></preview>
   </div>
 </template>
@@ -9,6 +9,10 @@
 <script>
 import Search from "./components/Search.vue";
 import Preview from "./components/Preview.vue";
+import Vue from 'vue'
+import BlockUI from 'vue-blockui'
+
+Vue.use(BlockUI)
 
 export default {
   name: "app",
@@ -27,22 +31,23 @@ export default {
   },
   methods: {
     doQuery(url) {
+
       fetch(url)
         .then(res => {
           return res.json();
         })
         .then(res => {
           this.gifs = res.data;
+        }).finally(() =>  { 
           this.isLoading = false;
         });
     },
     handleSearch(query) {
       this.gifs = [];
       this.isLoading = true;
-
       const url = `https://api.giphy.com/v1/gifs/search?api_key=VRMP3ZgWCkGmJhHQjx90VpDyeNYIrKWl&q=${query}&limit=25&offset=0&rating=G&lang=en`;
       this.doQuery(url);
-    }
+    }    
   }
 };
 </script>

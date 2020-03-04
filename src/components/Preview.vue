@@ -1,8 +1,8 @@
 <template>
   <div>
     <ul>
-      <li v-for="gif in gifs">
-        <img :src="gif.images.fixed_height.url" />
+      <li v-for="gif in gifs" :key="gif.id">
+        <img :src="gif.images.fixed_height.url"/>
       </li>
     </ul>
   </div>
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  props: ["gifs"]
+  props: ["gifs"] 
 };
 </script>
 
